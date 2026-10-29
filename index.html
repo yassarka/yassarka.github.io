@@ -1,12 +1,185 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Mon premier site</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VÉRITOGO – Plateforme citoyenne</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;color:#1d2b24;background:#f6f8f6;line-height:1.6}
+header{background:#006a4e;color:#fff;padding:14px 16px;position:sticky;top:0;z-index:5}
+.logo{font-size:22px;font-weight:bold;letter-spacing:1px}
+.logo span{color:#ffce00}
+nav{display:flex;gap:14px;flex-wrap:wrap;margin-top:6px;font-size:14px}
+nav a{color:#fff;text-decoration:none}
+#bar{background:#ffce00;padding:8px 16px;font-size:14px;display:none;justify-content:space-between;align-items:center}
+#bar button{background:#006a4e;color:#fff;border:0;border-radius:6px;padding:6px 12px}
+.hero{background:linear-gradient(135deg,#006a4e,#0b3d2e);color:#fff;padding:40px 18px;text-align:center}
+.hero h1{font-size:28px;margin-bottom:10px}
+.hero p{max-width:560px;margin:0 auto 18px}
+.btn{display:inline-block;background:#ffce00;color:#1d2b24;border:0;padding:12px 22px;border-radius:8px;font-weight:bold;font-size:16px;text-decoration:none;cursor:pointer}
+section{padding:30px 18px;max-width:900px;margin:auto}
+h2{color:#006a4e;margin-bottom:12px;font-size:23px}
+.cards{display:grid;gap:14px}
+@media(min-width:700px){.cards{grid-template-columns:repeat(3,1fr)}.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}}
+.card{background:#fff;border-radius:12px;padding:18px;border-top:5px solid #ffce00;box-shadow:0 2px 6px rgba(0,0,0,.08)}
+.card h3{color:#006a4e;margin-bottom:6px}
+.box{background:#fff;border-radius:12px;padding:18px;box-shadow:0 2px 6px rgba(0,0,0,.08);margin-bottom:14px}
+.box h3{color:#006a4e;margin-bottom:8px}
+input,textarea,select{width:100%;padding:11px;margin:6px 0 12px;border:1px solid #b9c7bf;border-radius:8px;font-size:15px;font-family:inherit}
+label{font-weight:bold;font-size:14px}
+.msg{display:none;margin-top:10px;padding:10px;border-radius:8px;font-size:14px}
+.ok{background:#e6f4ea;border-left:5px solid #006a4e}
+.ko{background:#fdeaea;border-left:5px solid #c0392b}
+.note{font-size:13px;color:#5b6b63;margin-top:8px}
+.rep{border-left:4px solid #ffce00;padding:8px 10px;margin-top:8px;background:#fafafa;font-size:14px}
+footer{background:#0b3d2e;color:#fff;text-align:center;padding:20px 14px;font-size:14px}
+</style>
 </head>
 <body>
-  <h1>Bonjour !</h1>
-  <p>Mon site est en ligne.</p>
+
+<header>
+  <div class="logo">VÉRI<span>TOGO</span></div>
+  <nav>
+    <a href="#axes">Les 3 axes</a>
+    <a href="#compte">Compte</a>
+    <a href="#verifier">Vérifier</a>
+    <a href="#signaler">Signaler</a>
+    <a href="#apropos">À propos</a>
+  </nav>
+</header>
+<div id="bar"><span id="who"></span><button onclick="deconnecter()">Déconnexion</button></div>
+
+<div class="hero">
+  <h1>Informer, vérifier, agir</h1>
+  <p>VÉRITOGO est une plateforme citoyenne togolaise de signalement, pour une information fiable, des droits humains mieux connus et une participation citoyenne active.</p>
+  <a class="btn" href="#compte">Rejoindre la plateforme</a>
+</div>
+
+<section id="axes">
+  <h2>Nos trois axes</h2>
+  <div class="cards">
+    <div class="card"><h3>1. Information et vérification</h3><p>Vérifier les informations qui circulent et lutter contre la désinformation.</p></div>
+    <div class="card"><h3>2. Droits humains et orientation citoyenne</h3><p>Connaître ses droits et être orienté vers les bons interlocuteurs.</p></div>
+    <div class="card"><h3>3. Participation et action citoyenne</h3><p>Signaler, s’engager et agir ensemble pour sa communauté.</p></div>
+  </div>
+</section>
+
+<section id="compte">
+  <h2>Inscription et connexion</h2>
+  <div class="two">
+    <div class="box">
+      <h3>S’inscrire</h3>
+      <label>Nom</label><input id="in_n" placeholder="Ton nom">
+      <label>Email</label><input id="in_e" type="email" placeholder="exemple@mail.com">
+      <label>Mot de passe</label><input id="in_p" type="password" placeholder="4 caractères minimum">
+      <button class="btn" onclick="inscrire()">Créer mon compte</button>
+      <div class="msg" id="m1"></div>
+    </div>
+    <div class="box">
+      <h3>Se connecter</h3>
+      <label>Email</label><input id="co_e" type="email">
+      <label>Mot de passe</label><input id="co_p" type="password">
+      <button class="btn" onclick="connecter()">Connexion</button>
+      <div class="msg" id="m2"></div>
+    </div>
+  </div>
+  <p class="note">Prototype : les données restent sur cet appareil. N’utilise pas un vrai mot de passe pendant la démonstration.</p>
+</section>
+
+<section id="verifier">
+  <h2>Vérifier une information</h2>
+  <div class="box">
+    <label>Colle ici l’information ou le message à vérifier</label>
+    <textarea id="info" rows="3" placeholder="Ex. : message reçu sur WhatsApp…"></textarea>
+    <button class="btn" onclick="verifier()">Vérifier</button>
+    <div class="msg ok" id="m3"></div>
+  </div>
+</section>
+
+<section id="signaler">
+  <h2>Faire un signalement</h2>
+  <div class="box">
+    <label>Type de signalement</label>
+    <select id="type">
+      <option>Désinformation</option>
+      <option>Atteinte aux droits humains</option>
+      <option>Problème dans ma communauté</option>
+    </select>
+    <label>Lieu</label><input id="lieu" placeholder="Ville, quartier…">
+    <label>Description</label><textarea id="desc" rows="4" placeholder="Décris ce qui s’est passé…"></textarea>
+    <button class="btn" onclick="signaler()">Envoyer le signalement</button>
+    <div class="msg" id="m4"></div>
+  </div>
+  <div class="box">
+    <h3>Mes signalements</h3>
+    <div id="liste"><p class="note">Connecte-toi pour voir tes signalements.</p></div>
+  </div>
+</section>
+
+<section id="apropos">
+  <h2>À propos</h2>
+  <div class="box">
+    <p>VÉRITOGO est un projet présenté dans le cadre d’<strong>Amnesty Youth Squad 2026</strong> (Amnesty International Togo). Il est conçu comme un <strong>pilote de 3 mois</strong>, à durée déterminée, avec un impact positif sur les droits humains et la participation citoyenne.</p>
+  </div>
+</section>
+
+<footer>© 2026 VÉRITOGO – Prototype</footer>
+
+<script>
+function lire(k,d){try{var v=JSON.parse(localStorage.getItem(k));return v||d}catch(e){return d}}
+function ecrire(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+function val(id){return document.getElementById(id).value.trim()}
+function msg(id,t,ok){var m=document.getElementById(id);m.textContent=t;m.className="msg "+(ok?"ok":"ko");m.style.display="block"}
+
+function inscrire(){
+  var n=val("in_n"),e=val("in_e").toLowerCase(),p=val("in_p");
+  if(!n||!e||p.length<4){msg("m1","Remplis tous les champs (mot de passe : 4 caractères minimum).",false);return}
+  var u=lire("vt_users",[]);
+  for(var i=0;i<u.length;i++){if(u[i].e===e){msg("m1","Cet email est déjà inscrit.",false);return}}
+  u.push({n:n,e:e,p:p});ecrire("vt_users",u);
+  ecrire("vt_session",{n:n,e:e});
+  msg("m1","Compte créé. Bienvenue "+n+" !",true);maj();
+}
+function connecter(){
+  var e=val("co_e").toLowerCase(),p=val("co_p"),u=lire("vt_users",[]);
+  for(var i=0;i<u.length;i++){
+    if(u[i].e===e&&u[i].p===p){ecrire("vt_session",{n:u[i].n,e:e});msg("m2","Connexion réussie. Bonjour "+u[i].n+" !",true);maj();return}
+  }
+  msg("m2","Email ou mot de passe incorrect.",false);
+}
+function deconnecter(){try{localStorage.removeItem("vt_session")}catch(x){}maj()}
+function verifier(){
+  if(!val("info")){msg("m3","Merci de saisir une information à vérifier.",false);return}
+  msg("m3","Information reçue. Elle est en cours d’analyse par l’équipe de vérification. Un statut (vérifiée, fausse, non confirmée) sera affiché ici.",true);
+}
+function signaler(){
+  var s=lire("vt_session",null);
+  if(!s){msg("m4","Connecte-toi d’abord pour envoyer un signalement.",false);return}
+  if(!val("desc")){msg("m4","Merci de décrire le signalement.",false);return}
+  var r=lire("vt_reports",[]);
+  r.push({e:s.e,type:document.getElementById("type").value,lieu:val("lieu"),desc:val("desc"),date:new Date().toLocaleString("fr-FR")});
+  ecrire("vt_reports",r);
+  document.getElementById("desc").value="";
+  msg("m4","Merci ! Ton signalement a bien été enregistré.",true);maj();
+}
+function maj(){
+  var s=lire("vt_session",null),bar=document.getElementById("bar"),l=document.getElementById("liste");
+  if(s){bar.style.display="flex";document.getElementById("who").textContent="Connecté : "+s.n}else{bar.style.display="none"}
+  l.innerHTML="";
+  if(!s){var p=document.createElement("p");p.className="note";p.textContent="Connecte-toi pour voir tes signalements.";l.appendChild(p);return}
+  var r=lire("vt_reports",[]),n=0;
+  for(var i=r.length-1;i>=0;i--){
+    if(r[i].e!==s.e)continue;n++;
+    var d=document.createElement("div");d.className="rep";
+    var b=document.createElement("strong");b.textContent=r[i].type+" – "+(r[i].lieu||"lieu non précisé");
+    var t=document.createElement("div");t.textContent=r[i].desc;
+    var h=document.createElement("div");h.className="note";h.textContent=r[i].date+" · Statut : en cours de traitement";
+    d.appendChild(b);d.appendChild(t);d.appendChild(h);l.appendChild(d);
+  }
+  if(!n){var q=document.createElement("p");q.className="note";q.textContent="Aucun signalement pour le moment.";l.appendChild(q)}
+}
+maj();
+</script>
 </body>
 </html>
